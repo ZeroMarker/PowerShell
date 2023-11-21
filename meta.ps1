@@ -7,6 +7,7 @@ function Hello {
     )
     Write-Host "Hello, PowerShell World!"
 }
+# call function
 Hello
 
 function Variables {
@@ -19,7 +20,7 @@ function Variables {
 
     $numbers = 1,3,5,8
 
-    "$var"
+    "$var"  # print variable
 
     "$number"
 

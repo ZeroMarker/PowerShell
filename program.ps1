@@ -12,5 +12,4 @@ wsl
 ncpa.cpl	# network center
 chkdsk		# check disk
 nslookup	# name server
-		
-	
+
