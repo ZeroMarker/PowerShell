@@ -1,0 +1,3 @@
+$PSVersionTable.PSVersion
+
+# Get-Service
