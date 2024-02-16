@@ -12,4 +12,6 @@ wsl
 ncpa.cpl	# network center
 chkdsk		# check disk
 nslookup	# name server
-
+control     # control panel
+dism
+net session
