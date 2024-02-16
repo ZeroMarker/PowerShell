@@ -15,3 +15,5 @@ nslookup	# name server
 control     # control panel
 dism
 net session
+start shell:RecycleBinFolder    # recycle bin
+
