@@ -11,7 +11,8 @@ for dir in */; do
 
         # Navigate into the Git repository directory
         cd "$dir"
-
+        
+        git pull
         # Add all changes to the staging area
         git add .
 
