@@ -9,3 +9,5 @@
 [Beginner PowerShell 7 Tutorials](https://www.youtube.com/playlist?list=PLnK11SQMNnE4vcvuAahz4KhNOS7zOfmB3)
 
 [How to set up PowerShell prompt with Oh My Posh on Windows 11](https://www.youtube.com/watch?v=5-aK2_WwrmM)
+
+
