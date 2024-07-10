@@ -15,3 +15,5 @@ $system32 = Join-Path -Path $env:SystemRoot -ChildPath 'System32'
 explorer.exe shell:RecycleBinFolder
 
 $env:APPDATA\Docker\settings.json
+
+%USERPROFILE%
