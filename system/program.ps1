@@ -17,3 +17,6 @@ dism
 net session
 start shell:RecycleBinFolder    # recycle bin
 explorer    # explorer
+msinfo32
+perfmon
+
