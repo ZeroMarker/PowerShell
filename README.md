@@ -10,4 +10,4 @@
 
 [How to set up PowerShell prompt with Oh My Posh on Windows 11](https://www.youtube.com/watch?v=5-aK2_WwrmM)
 
-
+[安裝 Windows Terminal + PowerShell 7 + oh-my-posh 美化環境](https://gqpigling.com/posts/development-environment/windows-pwsh-oh-my-posh-show-virtual-env-name)
