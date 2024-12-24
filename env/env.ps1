@@ -17,3 +17,5 @@ explorer.exe shell:RecycleBinFolder
 $env:APPDATA\Docker\settings.json
 
 %USERPROFILE%
+
+[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\bin", "User")
