@@ -12,4 +12,6 @@
 
 [安裝 Windows Terminal + PowerShell 7 + oh-my-posh 美化環境](https://gqpigling.com/posts/development-environment/windows-pwsh-oh-my-posh-show-virtual-env-name)
 
+[安裝新版 Oh My Posh 與插件來美化 PowerShell | 成功他媽．阿瑋](https://www.kwchang0831.dev/dev-env/pwsh/oh-my-posh)
+
 [告别 Windows 终端的难看难用，从改造 PowerShell 的外观开始](https://sspai.com/post/52868)
