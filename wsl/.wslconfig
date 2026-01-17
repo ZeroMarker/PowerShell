@@ -1,0 +1,9 @@
+[wsl2]
+nestedVirtualization=true
+ipv6=true
+networkingMode=Mirrored
+[experimental]
+autoMemoryReclaim=gradual # gradual | dropcache | disabled
+dnsTunneling=true
+firewall=true
+autoProxy=true
