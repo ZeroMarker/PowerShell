@@ -1,0 +1,2 @@
+. $profile
+# load profile

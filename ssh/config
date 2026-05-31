@@ -1,0 +1,12 @@
+Host gcp
+  HostName 3.2.1.5
+  User root
+  IdentityFile ~/.ssh/google_compute_engine
+
+Host ali
+  HostName 1.8.8.1
+  User root
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
