@@ -26,8 +26,16 @@ $endClean = $EndTime.Replace(':', '')
 
 $outputName = if ($dir) { "$dir\${name}_cut_${startClean}-${endClean}${ext}" } else { "${name}_cut_${startClean}-${endClean}${ext}" }
 
+function To-Sec($t) {
+    $parts = $t -split ':'
+    [int]$parts[0] * 3600 + [int]$parts[1] * 60 + [int]$parts[2]
+}
+
+$durationSec = (To-Sec $EndTime) - (To-Sec $StartTime)
+$duration = "{0:D2}:{1:D2}:{2:D2}" -f ([math]::Floor($durationSec/3600)), ([math]::Floor(($durationSec%3600)/60)), ($durationSec%60)
+
 Write-Host "裁剪: $InputFile"
-Write-Host "时间: $StartTime -> $EndTime"
+Write-Host "时间: $StartTime -> $EndTime (时长: $duration)"
 Write-Host "输出: $outputName"
 
-ffmpeg -i $InputFile -ss $StartTime -to $EndTime -c copy $outputName
+ffmpeg -y -ss $StartTime -i $InputFile -t $duration -c copy $outputName

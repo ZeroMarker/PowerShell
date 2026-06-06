@@ -30,8 +30,16 @@ else
     OUTPUT="${DIR}/${NAME}_cut_${START_CLEAN}-${END_CLEAN}.${EXT}"
 fi
 
+to_sec() {
+    IFS=: read -r h m s <<< "$1"
+    echo $(( 10#$h * 3600 + 10#$m * 60 + 10#$s ))
+}
+
+DURATION_SEC=$(( $(to_sec "$END_TIME") - $(to_sec "$START_TIME") ))
+DURATION=$(printf "%02d:%02d:%02d" $((DURATION_SEC/3600)) $(((DURATION_SEC%3600)/60)) $((DURATION_SEC%60)))
+
 echo "裁剪: $INPUT_FILE"
-echo "时间: $START_TIME -> $END_TIME"
+echo "时间: $START_TIME -> $END_TIME (时长: $DURATION)"
 echo "输出: $OUTPUT"
 
-ffmpeg -y -i "$INPUT_FILE" -ss "$START_TIME" -to "$END_TIME" -c:v libx264 -c:a aac "$OUTPUT"
+ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -t "$DURATION" -c copy "$OUTPUT"
