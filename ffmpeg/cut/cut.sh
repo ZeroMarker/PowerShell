@@ -33,4 +33,9 @@ echo "裁剪: $INPUT_FILE"
 echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
-ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts "$OUTPUT"
+ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts "$OUTPUT" || exit 1
+
+# 快速 remux 重置时间戳，方便后续二次剪辑
+CLEAN="${OUTPUT%.*}_clean.${EXT}"
+echo "重置时间戳: $CLEAN"
+ffmpeg -i "$OUTPUT" -c copy -avoid_negative_ts make_zero "$CLEAN"
