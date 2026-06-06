@@ -1,4 +1,5 @@
 #!/bin/bash
+# 全局使用: export PATH="$PATH:~/PowerShell/ffmpeg/cut"
 # 视频裁剪工具
 # 用法: ./cut.sh <输入文件> <开始时间> <结束时间>
 # 示例: ./cut.sh video.mp4 00:01:30 00:03:45
