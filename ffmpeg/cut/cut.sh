@@ -17,13 +17,6 @@ if [ ! -f "$INPUT_FILE" ]; then
     exit 1
 fi
 
-to_sec() {
-    IFS=: read -r h m s <<< "$1"
-    echo $(( 10#$h * 3600 + 10#$m * 60 + 10#$s ))
-}
-
-DURATION=$(( $(to_sec "$END_TIME") - $(to_sec "$START_TIME") ))
-
 DIR=$(dirname "$INPUT_FILE")
 NAME=$(basename "$INPUT_FILE" | sed 's/\.[^.]*$//')
 EXT="${INPUT_FILE##*.}"
@@ -37,7 +30,7 @@ else
 fi
 
 echo "裁剪: $INPUT_FILE"
-echo "时间: $START_TIME -> $END_TIME（时长: ${DURATION}s）"
+echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
-ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -t "$DURATION" -c copy "$OUTPUT"
+ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts "$OUTPUT"
