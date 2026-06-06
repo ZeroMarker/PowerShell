@@ -34,4 +34,4 @@ echo "裁剪: $INPUT_FILE"
 echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
-ffmpeg -i "$INPUT_FILE" -ss "$START_TIME" -to "$END_TIME" -c copy "$OUTPUT"
+ffmpeg -y -i "$INPUT_FILE" -ss "$START_TIME" -to "$END_TIME" -c:v libx264 -c:a aac "$OUTPUT"
