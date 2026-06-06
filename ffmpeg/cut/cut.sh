@@ -55,5 +55,5 @@ echo "裁剪: $INPUT_FILE"
 echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
-# -ss 在 -i 前：快速跳到关键帧；-to 精确按时间戳截断；-copyts 保留原始时间戳
-ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts -avoid_negative_ts make_zero "$OUTPUT"
+# -ss 放 -i 之后：精确回退到起始时间之前的最近关键帧，不会向前跳
+ffmpeg -y -i "$INPUT_FILE" -ss "$START_TIME" -to "$END_TIME" -c copy -avoid_negative_ts make_zero "$OUTPUT"
