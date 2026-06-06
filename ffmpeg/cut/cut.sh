@@ -1,6 +1,6 @@
 #!/bin/bash
 # 全局使用: export PATH="$PATH:~/PowerShell/ffmpeg/cut"
-# 视频裁剪工具
+# 视频裁剪工具（重新编码模式，帧级精确）
 # 用法: ./cut.sh <输入文件> <开始时间> <结束时间>
 # 示例: ./cut.sh video.mp4 00:01:30 00:03:45
 
@@ -54,6 +54,22 @@ fi
 echo "裁剪: $INPUT_FILE"
 echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
+echo "模式: 重新编码（帧级精确）"
 
-# -ss 放 -i 之后：精确回退到起始时间之前的最近关键帧，不会向前跳
-ffmpeg -y -i "$INPUT_FILE" -ss "$START_TIME" -to "$END_TIME" -c copy -avoid_negative_ts make_zero "$OUTPUT"
+# 检测原始视频编码，选择合适的编码器
+VCODEC=$(ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 "$INPUT_FILE")
+case "$VCODEC" in
+    h264|avc)              VENC=libx264; CRF=23 ;;
+    hevc|h265)             VENC=libx265; CRF=28 ;;
+    vp9)                   VENC=libvpx-vp9; CRF=30;;
+    av1)                   VENC=libaom-av1; CRF=30;;
+    *)                     VENC=libx264; CRF=23 ;;
+esac
+
+echo "检测到视频编码: $VCODEC → 编码器: $VENC"
+
+# -ss 在 -i 前：跳到起始时间前的关键帧，解码后丢弃到精确帧，再重新编码
+ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" \
+    -c:v "$VENC" -crf "$CRF" -preset fast \
+    -c:a copy \
+    "$OUTPUT"
