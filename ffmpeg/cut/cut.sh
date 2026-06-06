@@ -18,6 +18,27 @@ if [ ! -f "$INPUT_FILE" ]; then
     exit 1
 fi
 
+# 校验时间格式
+for t in "$START_TIME" "$END_TIME"; do
+    if ! [[ "$t" =~ ^[0-9]{2}:[0-9]{2}:[0-9]{2}$ ]]; then
+        echo "错误: 时间格式无效（应为 HH:MM:SS）: $t" >&2
+        exit 1
+    fi
+done
+
+to_sec() {
+    IFS=: read -r h m s <<< "$1"
+    echo $(( 10#$h * 3600 + 10#$m * 60 + 10#$s ))
+}
+
+START_SEC=$(to_sec "$START_TIME")
+END_SEC=$(to_sec "$END_TIME")
+
+if [ "$END_SEC" -le "$START_SEC" ]; then
+    echo "错误: 结束时间必须大于开始时间" >&2
+    exit 1
+fi
+
 DIR=$(dirname "$INPUT_FILE")
 NAME=$(basename "$INPUT_FILE" | sed 's/\.[^.]*$//')
 EXT="${INPUT_FILE##*.}"
@@ -30,16 +51,9 @@ else
     OUTPUT="${DIR}/${NAME}_cut_${START_CLEAN}-${END_CLEAN}.${EXT}"
 fi
 
-to_sec() {
-    IFS=: read -r h m s <<< "$1"
-    echo $(( 10#$h * 3600 + 10#$m * 60 + 10#$s ))
-}
-
-DURATION_SEC=$(( $(to_sec "$END_TIME") - $(to_sec "$START_TIME") ))
-DURATION=$(printf "%02d:%02d:%02d" $((DURATION_SEC/3600)) $(((DURATION_SEC%3600)/60)) $((DURATION_SEC%60)))
-
 echo "裁剪: $INPUT_FILE"
-echo "时间: $START_TIME -> $END_TIME (时长: $DURATION)"
+echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
-ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -t "$DURATION" -c copy "$OUTPUT"
+# -ss 在 -i 前：快速跳到关键帧；-to 精确按时间戳截断；-copyts 保留原始时间戳
+ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts -avoid_negative_ts make_zero "$OUTPUT"
