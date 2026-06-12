@@ -1,4 +1,4 @@
-#!/bin/bash
+rip() {
 # 视频裁剪工具（快速粗剪）
 # 用法: ./cut.sh <输入文件> <开始时间> <结束时间>
 # 示例: ./cut.sh video.mp4 00:01:30 00:03:45
@@ -34,3 +34,6 @@ echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
 ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts "$OUTPUT"
+
+}
+
