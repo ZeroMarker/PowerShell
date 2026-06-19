@@ -5,7 +5,7 @@ rip() {
 
 if [ $# -lt 3 ]; then
     echo "用法: $0 <输入文件> <开始时间> <结束时间>" >&2
-    exit 1
+    return 1
 fi
 
 INPUT_FILE="$1"
@@ -14,7 +14,12 @@ END_TIME="$3"
 
 if [ ! -f "$INPUT_FILE" ]; then
     echo "错误: 文件不存在: $INPUT_FILE" >&2
-    exit 1
+    return 1
+fi
+
+if ! command -v ffmpeg &> /dev/null; then
+    echo "错误: ffmpeg 未安装或不在 PATH 中" >&2
+    return 1
 fi
 
 DIR=$(dirname "$INPUT_FILE")
@@ -34,6 +39,18 @@ echo "时间: $START_TIME -> $END_TIME"
 echo "输出: $OUTPUT"
 
 ffmpeg -y -ss "$START_TIME" -i "$INPUT_FILE" -to "$END_TIME" -c copy -copyts "$OUTPUT"
+
+if [ $? -ne 0 ]; then
+    echo "错误: ffmpeg 执行失败" >&2
+    return 1
+fi
+
+if [ ! -f "$OUTPUT" ]; then
+    echo "错误: 输出文件未生成: $OUTPUT" >&2
+    return 1
+fi
+
+echo "完成: $OUTPUT"
 
 }
 
