@@ -1,2 +1,0 @@
-notepad (Get-PSReadLineOption).HistorySavePath
-

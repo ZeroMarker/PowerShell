@@ -1,1 +1,0 @@
-magick identify your-icon.ico

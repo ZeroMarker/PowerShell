@@ -1,27 +1,54 @@
 # PowerShell
 
-[【微软官方】PowerShell 3.0 教程](https://www.bilibili.com/video/BV1Bx411g7gD/)
+PowerShell 学习与工具脚本仓库：命令备忘、可直接运行的工具脚本、配置文件。
 
-[PowerShell For Beginners Full Course](https://www.youtube.com/watch?v=UVUd9_k9C6A)
+## 教程资源
 
-[Batch Script Tutorial](https://www.tutorialspoint.com/batch_script/index.htm)
-
-[Beginner PowerShell 7 Tutorials](https://www.youtube.com/playlist?list=PLnK11SQMNnE4vcvuAahz4KhNOS7zOfmB3)
+- [【微软官方】PowerShell 3.0 教程](https://www.bilibili.com/video/BV1Bx411g7gD/)
+- [PowerShell For Beginners Full Course](https://www.youtube.com/watch?v=UVUd9_k9C6A)
+- [Batch Script Tutorial](https://www.tutorialspoint.com/batch_script/index.htm)
+- [Beginner PowerShell 7 Tutorials](https://www.youtube.com/playlist?list=PLnK11SQMNnE4vcvuAahz4KhNOS7zOfmB3)
 
 ## 项目结构
 
 ```
 PowerShell/
-├── bat/            # Windows 批处理脚本
-├── docs/           # 文档 (posh, kex, explorer)
-├── env/            # 环境变量管理
-├── ffmpeg/         # FFmpeg 媒体处理 (cut, h2v, split)
-├── file/           # 文件操作 (attrib, encoding, mv, rm, xcopy, zip, magick)
-├── git/            # Git 批量提交脚本
-├── network/        # 网络工具 (download, route, tracert, wget, ssh)
-├── profile/        # PowerShell 配置文件
-├── rookie/         # 入门示例脚本
-├── system/         # 系统工具 (command, ntfs, process, program, history, sh, recycle)
-├── wsl/            # WSL 配置与脚本
-└── sys.ps1         # 系统脚本
+├── profile/     # PowerShell 配置文件（$PROFILE、Add-ToUserPath 等）
+├── scripts/     # 可执行工具脚本
+│   ├── ffmpeg/    # 视频处理：cut（裁剪）、h2v（横转竖）、split（分割）、ffmpeg.ps1（函数库）
+│   ├── file/      # 文件操作：rename（批量小写化）、zip（压缩别名）
+│   ├── git/       # git 批量提交
+│   ├── env/       # 环境变量：add-path（幂等添加 PATH）
+│   └── examples/  # 学习示例：hanoi（汉诺塔）、meta（语法练习）
+├── notes/       # 命令备忘（按主题：env/file/network/system/wsl/rookie）
+├── docs/        # 教程与方案：posh、kex、explorer、ffmpeg-keyframe、ffmpeg-cut
+└── config/      # 配置文件：wslconfig（WSL2）、ssh-config（SSH 别名）
 ```
+
+## 快速开始
+
+```powershell
+# 加载全部 profile 工具
+. .\profile\Microsoft.PowerShell_profile.ps1
+
+# FFmpeg 视频裁剪（两阶段方案见 docs/ffmpeg-cut.md）
+.\scripts\ffmpeg\cut.ps1 video.mp4 00:01:30 00:03:45
+
+# 批量重命名当前目录文件夹为小写
+.\scripts\file\rename.ps1
+
+# 幂等添加目录到用户 PATH
+.\scripts\env\add-path.ps1
+```
+
+## 地图速查
+
+| 想做什么 | 去哪 |
+|----------|------|
+| 视频裁剪 / 转竖屏 / 分割 | `scripts/ffmpeg/` + `docs/ffmpeg-*.md` |
+| 文件批量操作 | `scripts/file/`、`notes/file.md` |
+| 网络诊断 / 下载 | `notes/network.md` |
+| 系统工具 / 快捷键 | `notes/system.md` |
+| PowerShell 入门示例 | `scripts/examples/`、`notes/rookie.md` |
+| 美化终端 (oh-my-posh) | `docs/posh.md` |
+| WSL / Kali Win-KEX | `notes/wsl.md`、`docs/kex.md` |

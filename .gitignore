@@ -1,55 +1,18 @@
-# Prerequisites
-*.d
+# PowerShell 脚本仓库忽略规则
 
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
+# 敏感信息（曾误提交过明文密码，禁止再次跟踪）
+network/ssh-ali.ps1
 
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
-
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
+# 编辑器
 .vscode/
-*.exe
+.idea/
+
+# PowerShell / 脚本产物
+*.tmp
+*.log
+*.zip
+*.mp4
+
+# 系统文件
+Thumbs.db
+Desktop.ini
