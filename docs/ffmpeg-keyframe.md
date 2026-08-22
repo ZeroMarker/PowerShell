@@ -32,7 +32,10 @@ P/B 帧依赖前面的 I 帧才能解码，所以 `-c copy`（流复制）**必�
 | `MEYD-785-C.mp4` | **8.3 秒** | ~8 秒 | JAV 商业发布 |
 | `PRIAN-050.mp4` | **12 秒** | ~12 秒 | 直播录制/转码 |
 
-## 对 `cut.sh` / `cut` 的影响
+## 对粗剪方案的影响（已封存）
+
+> 当前 `linux/cut.sh`（函数 `rip`）与本地 `rip` 均已是**精准剪辑**（重新编码），不受关键帧限制。
+> 此限制只影响已封存的粗剪版（`archive/cut-rough.sh` / `archive/cut-v1.ps1`）。
 
 ```
 ffmpeg -ss 01:39:26 -i input.mp4 -to 01:40:10 -c copy -copyts output.mp4
@@ -63,5 +66,5 @@ ffprobe -v error -select_streams v:0 -show_entries packet=pts_time,flags \
 
 `-c copy` 受限于关键帧，无法帧级精确。解决方案：
 
-1. **重新编码**（当前 profile `cut` 函数）：`-ss` 解码到精确帧后重新编码，输出首帧为 I 帧
-2. **两阶段**：阶段一 `-c copy` 快速粗剪，阶段二对短文件重新编码精确细剪
+1. **重新编码**（当前 `linux/cut.sh` 与 profile `rip`）：`-ss` 解码到精确帧后重新编码，输出首帧为 I 帧
+2. ~~两阶段~~（已封存）：阶段一 `-c copy` 快速粗剪 → 阶段二本地重编码细剪，因粗剪起点偏移被放弃（见 `docs/ffmpeg-cut.md` 历史方案、`scripts/ffmpeg/archive/`）

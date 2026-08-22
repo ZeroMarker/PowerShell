@@ -15,7 +15,7 @@ PowerShell 学习与工具脚本仓库：命令备忘、可直接运行的工具
 PowerShell/
 ├── profile/     # PowerShell 配置文件（$PROFILE、Add-ToUserPath 等）
 ├── scripts/     # 可执行工具脚本
-│   ├── ffmpeg/    # 视频处理：cut（裁剪）、h2v（横转竖）、split（分割）、ffmpeg.ps1（函数库）
+│   ├── ffmpeg/    # 视频处理：win/（PowerShell 本地）、linux/（bash 服务器）、archive/（封存旧版）
 │   ├── file/      # 文件操作：rename（批量小写化）、zip（压缩别名）
 │   ├── git/       # git 批量提交
 │   ├── env/       # 环境变量：add-path（幂等添加 PATH）
@@ -31,8 +31,8 @@ PowerShell/
 # 加载全部 profile 工具
 . .\profile\Microsoft.PowerShell_profile.ps1
 
-# FFmpeg 视频裁剪（两阶段方案见 docs/ffmpeg-cut.md）
-.\scripts\ffmpeg\cut.ps1 video.mp4 00:01:30 00:03:45
+# FFmpeg 视频裁剪（方案见 docs/ffmpeg-cut.md）
+.\scripts\ffmpeg\win\cut.ps1 video.mp4 00:01:30 00:03:45
 
 # 批量重命名当前目录文件夹为小写
 .\scripts\file\rename.ps1
@@ -45,7 +45,7 @@ PowerShell/
 
 | 想做什么 | 去哪 |
 |----------|------|
-| 视频裁剪 / 转竖屏 / 分割 | `scripts/ffmpeg/` + `docs/ffmpeg-*.md` |
+| 视频裁剪 / 转竖屏 / 分割 | `scripts/ffmpeg/win/`（本地）+ `scripts/ffmpeg/linux/`（服务器）+ `docs/ffmpeg-*.md` |
 | 文件批量操作 | `scripts/file/`、`notes/file.md` |
 | 网络诊断 / 下载 | `notes/network.md` |
 | 系统工具 / 快捷键 | `notes/system.md` |

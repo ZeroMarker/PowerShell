@@ -1,4 +1,4 @@
-function cut {
+function rip {
     param(
         [Parameter(Mandatory=$true, Position=0)]
         [string]$InputFile,
@@ -26,9 +26,12 @@ function cut {
     $crf = if ($venc -eq 'libx264') { 23 } else { 28 }
 
     # 拼接 ffmpeg 参数
+    # 注意: -to 必须与 -ss 一起放在 -i 之前（输入选项，按原始时间戳算终点）。
+    #       若 -to 放在 -i 之后（输出选项），`-ss` 输入定位平移时间戳后，-to 按平移后的位置计算，终点会翻倍。
     $ss = if ($StartTime -eq 'start') { '0' } else { $StartTime }
-    $argsList = @('-y', '-ss', $ss, '-i', $InputFile)
+    $argsList = @('-y', '-ss', $ss)
     if ($EndTime -ne 'end') { $argsList += '-to'; $argsList += $EndTime }
+    $argsList += '-i'; $argsList += $InputFile
     $argsList += '-c:v'; $argsList += $venc
     $argsList += '-crf'; $argsList += $crf
     $argsList += '-preset'; $argsList += 'fast'

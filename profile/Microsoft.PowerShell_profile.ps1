@@ -128,7 +128,13 @@ function Add-ToUserPath {
 
 (&mise activate pwsh) | Out-String | Invoke-Expression
 
-function cut {
+# ── 视频裁剪 ──────────────────────────────────────────────────────
+# rip:    精准剪辑（重新编码，帧级精确）— 日常使用，与 scripts/ffmpeg/win/cut-function.ps1 保持一致
+# 粗剪版（cut-v1）已封存 → scripts/ffmpeg/archive/cut-v1.ps1，需要时手动加载
+# 命名: 统一为 rip，避免与 Linux 系统自带 cut 命令冲突
+
+# 精准剪辑：重新编码，帧级精确（-ss 输入定位 + 丢弃早于起点的帧 + 新 I 帧输出）
+function rip {
     param(
         [Parameter(Mandatory=$true, Position=0)]
         [string]$InputFile,
@@ -140,7 +146,38 @@ function cut {
         [string]$EndTime
     )
 
-    $outputName = "$([System.IO.Path]::GetFileNameWithoutExtension($InputFile))_cut_$($StartTime.Replace(':', ''))-$($EndTime.Replace(':', ''))$([System.IO.Path]::GetExtension($InputFile))"
+    # 文件名中用 start/end 替代时间码
+    $ssLabel = if ($StartTime -eq 'start') { 'start' } else { $StartTime.Replace(':', '') }
+    $toLabel = if ($EndTime -eq 'end') { 'end' } else { $EndTime.Replace(':', '') }
+    $outputName = "$([System.IO.Path]::GetFileNameWithoutExtension($InputFile))_cut_${ssLabel}-${toLabel}$([System.IO.Path]::GetExtension($InputFile))"
 
-    ffmpeg -i $InputFile -ss $StartTime -to $EndTime -c copy $outputName
+    # 检测原始视频编码，选择合适的编码器
+    $codec = & ffprobe -v error -select_streams v:0 -show_entries stream=codec_name -of default=noprint_wrappers=1:nokey=1 $InputFile
+    $venc = switch ($codec) {
+        'h264'  { 'libx264'; break }
+        'hevc'  { 'libx265'; break }
+        'h265'  { 'libx265'; break }
+        default { 'libx264' }
+    }
+    $crf = if ($venc -eq 'libx264') { 23 } else { 28 }
+
+    # 拼接 ffmpeg 参数
+    # 注意: -to 必须与 -ss 一起放在 -i 之前（输入选项，按原始时间戳算终点）。
+    #       若 -to 放在 -i 之后（输出选项），`-ss` 输入定位平移时间戳后，-to 按平移后的位置计算，终点会翻倍。
+    $ss = if ($StartTime -eq 'start') { '0' } else { $StartTime }
+    $argsList = @('-y', '-ss', $ss)
+    if ($EndTime -ne 'end') { $argsList += '-to'; $argsList += $EndTime }
+    $argsList += '-i'; $argsList += $InputFile
+    $argsList += '-c:v'; $argsList += $venc
+    $argsList += '-crf'; $argsList += $crf
+    $argsList += '-preset'; $argsList += 'fast'
+    $argsList += '-c:a'; $argsList += 'aac'
+    $argsList += $outputName
+
+    Write-Host "裁剪: $InputFile"
+    Write-Host "时间: $StartTime -> $EndTime"
+    Write-Host "编码: $venc (crf=$crf)"
+    Write-Host "输出: $outputName"
+
+    & ffmpeg $argsList
 }
