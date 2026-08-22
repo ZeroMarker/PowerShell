@@ -129,8 +129,8 @@ function Add-ToUserPath {
 (&mise activate pwsh) | Out-String | Invoke-Expression
 
 # ── 视频裁剪 ──────────────────────────────────────────────────────
-# rip:    精准剪辑（重新编码，帧级精确）— 日常使用，与 scripts/ffmpeg/win/cut-function.ps1 保持一致
-# 粗剪版（cut-v1）已封存 → scripts/ffmpeg/archive/cut-v1.ps1，需要时手动加载
+# rip:    精准剪辑（重新编码，帧级精确）— 日常使用
+# 脚本已迁至 ff 仓库 scripts/ffmpeg/win/cut-function.ps1，此处保留内联副本供日常调用
 # 命名: 统一为 rip，避免与 Linux 系统自带 cut 命令冲突
 
 # 精准剪辑：重新编码，帧级精确（-ss 输入定位 + 丢弃早于起点的帧 + 新 I 帧输出）
