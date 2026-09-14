@@ -47,6 +47,4 @@ if ($currentPath -notlike "*$newPath*") {
 }
 ```
 
-## 参考文件
-
-- `profile/addToPath.ps1` — `Add-ToUserPath` 函数（带路径校验、幂等、`-Force` 覆盖）
+PATH 管理函数已合并到 `profile/Microsoft.PowerShell_profile.ps1`。
