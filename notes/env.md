@@ -32,10 +32,9 @@ rundll32 sysdm.cpl,EditEnvironmentVariables
 [Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\bin", "User")
 ```
 
-## 参考脚本
+## 示例
 
 ```powershell
-# scripts/env/add-path.ps1
 # 检查路径是否已在用户 PATH，不存在则追加（带幂等保护）
 $newPath = "$env:userprofile\.cargo\bin"
 $currentPath = [Environment]::GetEnvironmentVariable("Path", "User")

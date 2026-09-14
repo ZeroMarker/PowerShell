@@ -60,12 +60,11 @@ magick identify your-icon.ico   # ImageMagick 识别图片信息
 
 ## 压缩
 
-在 `scripts/file/zip.ps1` 中定义了别名：
+PowerShell 内置压缩命令如下：
 
 ```powershell
-Set-Alias zip Compress-Archive
-Set-Alias unzip Expand-Archive
-zip store store.zip
+Compress-Archive -Path store -DestinationPath store.zip
+Expand-Archive -Path store.zip -DestinationPath store
 ```
 
 ## 一次性任务示例

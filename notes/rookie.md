@@ -36,7 +36,6 @@ function loop {
 loop
 ```
 
-## 完整示例
+## 示例
 
-- `scripts/examples/hanoi.ps1` — 汉诺塔递归
-- `scripts/examples/meta.ps1` — 函数/变量/循环语法练习
+本文件中的函数示例可直接复制到 PowerShell 中练习。
