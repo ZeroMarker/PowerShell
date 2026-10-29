@@ -1,5 +1,7 @@
 # PowerShell
 
+> **已迁移**：本仓库内容已于 2026-10-29 迁入 [ZeroMarker/docs](https://github.com/ZeroMarker/docs/tree/main/docs/tech/powershell)，在线阅读：<https://zeromarker.github.io/docs/tech/powershell/>。本仓库已归档，仅保留提交历史，后续更新请在 docs 中进行。
+
 PowerShell 学习与环境配置仓库：命令备忘、配置文件和使用文档。
 
 ## 教程资源
